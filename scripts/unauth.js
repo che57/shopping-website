@@ -2,11 +2,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 
-var Item = require("./models/items");
-var User = require("./models/users");
-var Comment = require("./models/comments");
-var CollectionItem = require("./models/collectionItems");
-var Collection = require("./models/collections");
+var Item = require("../models/items");
+var User = require("../models/users");
+var Comment = require("../models/comments");
+var CollectionItem = require("../models/collectionItems");
+var Collection = require("../models/collections");
 
 var router = express.Router();
 
@@ -103,4 +103,4 @@ router.route('/collections/:collecion_id/collectionItems')
         })
     })
 
-module.export = router;
+module.exports = router;

@@ -4,15 +4,18 @@ var app = express();
 var bodyParser = require("body-parser");
 var path = require("path");
 
-var Item = require("./models/items");
-var User = require("./models/users");
-var Comment = require("./models/comments");
-var CollectionItem = require("./models/collectionItems");
-var CartItem = require("./models/cartItems");
-var Collection = require("./models/collections");
+var Item = require("../models/items");
+var User = require("../models/users");
+var Comment = require("../models/comments");
+var CollectionItem = require("../models/collectionItems");
+var CartItem = require("../models/cartItems");
+var Collection = require("../models/collections");
 
 var router = express.Router();
-// var itemRoute = '/item';
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const someOtherPlaintextPassword = 'not_bacon';
 
 router.use((req, res, next)=>{
     console.log('something is happening....');
@@ -20,6 +23,24 @@ router.use((req, res, next)=>{
 });
 
 router.route('/items')
+    .post((req, res)=>{
+        var item = new Item();
+        item.name = req.body.name;
+        item.price = req.body.price;
+        item.tax = req.body.tax;
+        item.stock = req.body.stock;
+        item.salesVolume = 0;
+        
+        if(item.price == '' || item.price == null){
+            res.json({msg: 'must input a price!'});
+        }
+        else{
+            item.save((err)=>{
+                if(err) res.send(err);
+                res.json({message: 'New item created!!'});
+            })
+        }
+    })
     .get((req, res)=>{
         Item.find((err, items)=>{
             if(err) res.send(err);
@@ -34,6 +55,65 @@ router.route('/items/:item_id')
             res.json(item);
         })
     })
+    .put((req,res)=>{
+        Item.findById(req.params.item_id, (err, item)=>{
+            if(err) res.send(err);
+            if(req.body.name != null && req.body.name != '') item.name = req.body.name;
+            if(req.body.price != null && req.body.price != '') item.price = req.body.price;
+            if(req.body.stock != null && req.body.stock != '') item.stock = req.body.stock;
+            if(req.body.tax != null){
+                item.tax = req.body.tax;
+                if(req.body.tax != '') item.tax = req.body.tax;
+                // else{
+                //     Item.update({_id: req.params.item_id}, {$unset: {tax: 1}});
+                // }
+            } 
+            item.save((err)=>{
+                if(err) res.send(err);
+                res.json({msg: "item information updated!!"});
+            })
+        })
+    })
+    .delete((req, res)=>{
+        Item.remove({_id: req.params.item_id},
+        (err, item)=>{
+            if(err) res.send(err);
+            res.json({msg: 'item deleted!!'});
+        })
+    });
+    
+router.route('/users')
+    .post((req, res)=>{
+        var user = new User();
+        user.userName = req.body.userName;
+        var password = req.body.password;
+        user.state = 1;
+        
+        if(user.userName == '' || user.userName == null){
+            res.json({msg: 'must input a userName!'});
+        }
+        else if(password == '' || password == null){
+            res.json({msg: 'must input a password!'});
+        }
+        else{
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+                bcrypt.hash(password, salt, (err, hash) => {
+                    if(err) res.send(err);
+                    user.password = hash;
+                    user.save((err)=>{
+                        if(err) res.send(err);
+                        res.json({message: 'New User created!!'});
+                    })
+                })
+            })
+        }
+    })
+    .get((req, res)=>{
+        User.find((err, users)=>{
+            if(err) res.send(err);
+            res.json(users);
+        })
+    });
     
 router.route('/users/:user_id')
     .get((req, res)=>{
@@ -46,12 +126,20 @@ router.route('/users/:user_id')
         User.findById(req.params.user_id, (err, user)=>{
             if(err) res.send(err);
             if(req.body.password != null && req.body.password != '') user.password = req.body.password;
+            if(req.body.state != null && req.body.state != '') user.state = req.body.state;
             user.save((err)=>{
                 if(err) res.send(err);
                 res.json({msg: "User information updated!!"});
             })
         })
     })
+    .delete((req, res)=>{
+        User.remove({_id: req.params.user_id},
+        (err, user)=>{
+            if(err) res.send(err);
+            res.json({msg: 'User deleted!!'});
+        })
+    });
     
 router.route('/comments')
     .post((req, res)=>{
@@ -80,6 +168,12 @@ router.route('/comments')
             })
         }
     })
+    .get((req, res)=>{
+        Comment.find((err, comments)=>{
+            if(err) res.send(err);
+            res.json(comments);
+        })
+    });
     
 router.route('/items/:item_id/comments/')
     .get((req, res)=>{
@@ -88,6 +182,12 @@ router.route('/items/:item_id/comments/')
             res.json(comments);
         })
     })
+    .delete((req, res)=>{
+        Comment.remove({itemId: req.params.item_id}, (err, comments)=>{
+            if(err) res.send(err);
+            res.json({msg: 'Comments of item_id deleted!!'});
+        })
+    });
     
 router.route('/comments/:comment_id')
     .get((req, res)=>{
@@ -96,8 +196,33 @@ router.route('/comments/:comment_id')
                 res.json(comments);
         })
     })
+    .put((req,res)=>{
+        Comment.findById(req.params.comment_id, (err, comment) => {
+            if(err) res.send(err);
+            if(req.body.state != null && req.body.state != '') {
+                comment.state = req.body.state;
+            }
+            comment.save((err) => {
+                if(err) res.send(err);
+                res.json({msg: "Comment updated!"})
+            })
+        })
+    })
+    .delete((req, res)=>{
+        Comment.remove({_id: req.params.comment_id},
+            (err, comments)=>{
+                if(err) res.send(err);
+                res.json({msg: 'Comment deleted!!'});
+            })
+    });
     
 router.route('/cartItems')
+    .get((req, res) => {
+        CartItem.find((err, cartItems) => {
+            if(err) res.send(err);
+            res.json(cartItems)
+        })
+    })
     .post((req, res) => {
         var cartItem = new CartItem();
         cartItem.userId = req.body.userId;
@@ -152,10 +277,16 @@ router.route('/users/:user_id/cartItems')
             res.json(cartItems);
         })
     })
+    .delete((req, res) => {
+        CartItem.remove({userId: req.params.user_id}, (err, cartItem) => {
+            if(err) res.send(err);
+            res.json({msg: 'cartItems of user_id deleted!'});
+        })
+    })
     
 router.route('/collections')
     .get((req, res) => {
-        Collection.find({visibilityState: 1}, (err, collection) => {
+        Collection.find((err, collection) => {
             if(err) res.send(err);
             res.json(collection);
         })
@@ -223,8 +354,21 @@ router.route('/users/:user_id/collections')
             res.json(collection);
         })
     })
+    .delete((req, res) => {
+        Collection.remove({userId: user._id}, (err, collection) => {
+            if(err) res.send(err);
+            res.json({msg: 'collections of user_id deleted!'});
+        })
+
+    })
     
 router.route('/collectionItems')
+    .get((req, res) => {
+        CollectionItem.find((err, collectionItems) => {
+            if(err) res.send(err);
+            res.json(collectionItems)
+        })
+    })
     .post((req, res) => {
         var collectionItem = new CollectionItem();
         collectionItem.collectionId = req.body.collectionId;
@@ -283,5 +427,11 @@ router.route('/collections/:collecion_id/collectionItems')
             res.json(collectionItem);
         })
     })
-    
-module.export = router;
+    .delete((req, res) => {
+        CollectionItem.remove({collectionId: req.params.collection_id}, (err, collectionItem) => {
+            if(err) res.send(err);
+            res.json({msg: 'collectionItems of collecion_id deleted!'});
+        })
+    })
+
+module.exports = router;

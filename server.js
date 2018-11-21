@@ -18,13 +18,13 @@ mongoose.connect('mongodb://localhost:27017/items');
 
 var port = process.env.PORT || 8080;
 
-var unauth = require("./unauth");
+var unauth = require("./scripts/unauth");
 app.use('/api', unauth);
 
-// var auth = require("./auth");
-// app.use('/api/auth', auth);
+var auth = require("./scripts/auth");
+app.use('/api/auth', auth);
 
-// var admin = require("./admin");
-// app.use('/api/admin', admin);
+var admin = require("./scripts/admin");
+app.use('/api/admin', admin);
 
 app.listen(port);
