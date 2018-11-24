@@ -1,16 +1,9 @@
-var jwt = require("jsonwebtoken");
-var config = require("./config");
+var express = require("express");
+var User = require("../models/users");
 
-function verifyAdminToken(req, res, next) {
-    var token = req.header['Authorization'];
-    if(!token) res.send({auth: false, msg: 'No token received!'});
-    jwt.verify(token, config.topSecret, (err, decoded) => {
-        if(err) res.send(err);
-        req.userId = decoded.id;
-        res.json({msg: 'token is valid!'});
-        next();
-    });
-    // ref: https://github.com/adnanrahic/securing-restful-apis-with-jwt/blob/master/auth/VerifyToken.js
+function verifyAdmin(req, res, next) {
+    if(req.isAdmin != true) return res.status(401).json({msg: 'Authority authentication failed'});
+    else next();
 }
 
-module.exports = verifyAdminToken;
+module.exports = verifyAdmin;
