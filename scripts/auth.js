@@ -10,9 +10,12 @@ var Collection = require("../models/collections");
 
 var router = express.Router();
 
+var nPerPage = 9;
+
 router.route('/items')
     .get((req, res)=>{
-        Item.find((err, items)=>{
+        var nSkip = req.query.page * nPerPage;
+        Item.find().sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
             if(err) res.send(err);
             res.json(items);
         })

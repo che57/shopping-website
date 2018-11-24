@@ -7,6 +7,7 @@ var User = require("../models/users");
 var Comment = require("../models/comments");
 var CollectionItem = require("../models/collectionItems");
 var Collection = require("../models/collections");
+var nPerPage = 9;
 
 var router = express.Router();
 
@@ -23,7 +24,8 @@ router.use((req, res, next)=>{
 
 router.route('/items')
     .get((req, res)=>{
-        Item.find((err, items)=>{
+        var nSkip = req.query.page * nPerPage;
+        Item.find().sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
             if(err) res.send(err);
             res.json(items);
         })

@@ -16,6 +16,8 @@ var router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+var nPerPage = 9;
+
 router.use((req, res, next)=>{
     console.log('something is happening....');
     next();
@@ -41,7 +43,8 @@ router.route('/items')
         }
     })
     .get((req, res)=>{
-        Item.find((err, items)=>{
+        var nSkip = req.query.page * nPerPage;
+        Item.find().sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
             if(err) res.send(err);
             res.json(items);
         })
