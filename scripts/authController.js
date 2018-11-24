@@ -102,7 +102,7 @@ router.route('/login').post((req, res) => {
             if(!isValid) return res.json({msg: 'Username or Password is invalid!'});
             else{
                 if(user.isAdmin == true){
-                    var token = jwt.sign({id: user._id}, config.topSecret, {expiresIn: 86400});
+                    var token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, config.secret, {expiresIn: 86400});
                     res.send({auth: true, token: token});
                 }
                 else{

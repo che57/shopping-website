@@ -3,7 +3,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var verifyToken = require("./scripts/verify")
-var verifyAdminToken = require("./scripts/verifyAdmin")
+var verifyAdmin = require("./scripts/verifyAdmin")
 
 app.all("/api/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -27,7 +27,7 @@ var auth = require("./scripts/auth");
 app.use('/api/auth', verifyToken, auth);
 
 var admin = require("./scripts/admin");
-app.use('/api/admin', verifyAdminToken, admin);
+app.use('/api/admin', verifyToken, verifyAdmin, admin);
 
 var authController = require("./scripts/authController");
 app.use('/api/authControll', authController);

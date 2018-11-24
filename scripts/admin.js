@@ -82,31 +82,6 @@ router.route('/items/:item_id')
     });
     
 router.route('/users')
-    .post((req, res)=>{
-        var user = new User();
-        user.userName = req.body.userName;
-        var password = req.body.password;
-        user.state = 1;
-        
-        if(user.userName == '' || user.userName == null){
-            res.json({msg: 'must input a userName!'});
-        }
-        else if(password == '' || password == null){
-            res.json({msg: 'must input a password!'});
-        }
-        else{
-            bcrypt.genSalt(saltRounds, (err, salt) => {
-                bcrypt.hash(password, salt, (err, hash) => {
-                    if(err) res.send(err);
-                    user.password = hash;
-                    user.save((err)=>{
-                        if(err) res.send(err);
-                        res.json({message: 'New User created!!'});
-                    })
-                })
-            })
-        }
-    })
     .get((req, res)=>{
         User.find((err, users)=>{
             if(err) res.send(err);
@@ -126,6 +101,7 @@ router.route('/users/:user_id')
             if(err) res.send(err);
             if(req.body.password != null && req.body.password != '') user.password = req.body.password;
             if(req.body.state != null && req.body.state != '') user.state = req.body.state;
+            if(req.body.isAdmin == true) user.isAdmin = true;
             user.save((err)=>{
                 if(err) res.send(err);
                 res.json({msg: "User information updated!!"});

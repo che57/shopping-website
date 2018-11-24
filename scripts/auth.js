@@ -7,7 +7,6 @@ var Comment = require("../models/comments");
 var CollectionItem = require("../models/collectionItems");
 var CartItem = require("../models/cartItems");
 var Collection = require("../models/collections");
-var verifyToken = require("./verify")
 
 var router = express.Router();
 
@@ -27,15 +26,15 @@ router.route('/items/:item_id')
         })
     })
     
-router.route('/users/:user_id')
+router.route('/users')
     .get((req, res)=>{
-        User.findById(req.params.user_id, (err, user)=>{
+        User.findById(req.userId, (err, user)=>{
             if(err) res.send(err);
             res.json(user);
         })
     })
     .put((req,res)=>{
-        User.findById(req.params.user_id, (err, user)=>{
+        User.findById(req.userId, (err, user)=>{
             if(err) res.send(err);
             if(req.body.password != null && req.body.password != '') user.password = req.body.password;
             user.save((err)=>{
@@ -137,9 +136,9 @@ router.route('/cartItems/:cartItem_id')
             res.json({msg: 'cartItem deleted!'});
         })
     })
-router.route('/users/:user_id/cartItems')
+router.route('/users/cartItems')
     .get((req, res) => {
-        CartItem.find({userId: req.params.user_id}, (err, cartItems) => {
+        CartItem.find({userId: req.userId}, (err, cartItems) => {
             if(err) res.send(err);
             res.json(cartItems);
         })
@@ -208,9 +207,9 @@ router.route('/collections/:collecion_id')
             })
         })
     })
-router.route('/users/:user_id/collections')
+router.route('/users/collections')
     .get((req, res) => {
-        Collection.find({userId: req.params.user_id}, (err, collection) => {
+        Collection.find({userId: req.userId}, (err, collection) => {
             if(err) res.send(err);
             res.json(collection);
         })
