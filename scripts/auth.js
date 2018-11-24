@@ -1,8 +1,5 @@
 
 var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var path = require("path");
 
 var Item = require("../models/items");
 var User = require("../models/users");
@@ -13,12 +10,6 @@ var Collection = require("../models/collections");
 var verifyToken = require("./verify")
 
 var router = express.Router();
-
-// router.use((req, res, next)=>{
-//     console.log('something is happening....');
-//     next();
-// });
-router.use(verifyToken);
 
 router.route('/items')
     .get((req, res)=>{

@@ -62,6 +62,12 @@ router.route('/users')
                 })
             })
         }
+    })
+    .get((req, res)=>{
+        User.find((err, users)=>{
+            if(err) res.send(err);
+            res.json(users);
+        })
     });
 router.route('/items/:item_id/comments/')
     .get((req, res)=>{

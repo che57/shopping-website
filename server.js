@@ -2,6 +2,8 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var verifyToken = require("./scripts/verify")
+var verifyAdminToken = require("./scripts/verifyAdmin")
 
 app.all("/api/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -22,9 +24,12 @@ var unauth = require("./scripts/unauth");
 app.use('/api', unauth);
 
 var auth = require("./scripts/auth");
-app.use('/api/auth', auth);
+app.use('/api/auth', verifyToken, auth);
 
 var admin = require("./scripts/admin");
-app.use('/api/admin', admin);
+app.use('/api/admin', verifyAdminToken, admin);
+
+var authController = require("./scripts/authController");
+app.use('/api/authControll', authController);
 
 app.listen(port);

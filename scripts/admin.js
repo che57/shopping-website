@@ -15,7 +15,6 @@ var router = express.Router();
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const someOtherPlaintextPassword = 'not_bacon';
 
 router.use((req, res, next)=>{
     console.log('something is happening....');
