@@ -96,10 +96,10 @@ router.route('/register').post((req, res) => {
 router.route('/login').post((req, res) => {
     User.findOne({userName: req.body.userName}, (err, user) => {
         if(err) res.send(err);
-        if(!user) return res.json({msg: 'Username or Password is invalid!'});
+        if(!user) return res.json({auth: false, msg: 'Username or Password is invalid!'});
         
         bcrypt.compare(req.body.password, user.password, (err, isValid) => {
-            if(!isValid) return res.json({msg: 'Username or Password is invalid!'});
+            if(!isValid) return res.json({auth: false, msg: 'Username or Password is invalid!'});
             else{
                 if(user.isAdmin == true){
                     var token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, config.secret, {expiresIn: 86400});

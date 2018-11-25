@@ -31,6 +31,13 @@ router.route('/items')
         })
     });
     
+router.route('/items/amount').get((req, res) => {
+    Item.find().count((err, count) => {
+        if(err) res.send(err);
+        res.json({amount: count, nPerPage: nPerPage});
+    });
+})
+    
 router.route('/items/:item_id')
     .get((req, res)=>{
         Item.findById(req.params.item_id, (err, item)=>{
