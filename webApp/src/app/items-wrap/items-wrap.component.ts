@@ -26,7 +26,6 @@ export class ItemsWrapComponent implements OnInit {
   showItems(num) {
     this.itemsService.getItems(num).subscribe((data) => {
       this.items = data;
-      console.log(data);
     });
   }
   ngOnInit() {

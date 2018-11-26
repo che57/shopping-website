@@ -1,3 +1,16 @@
-<p>
-  sign-up works!
-</p>
+<div class="text-center mt-5">
+  <div class="form-signin">
+    <img class="mb-4" src="../../assets/images/UWO_logo.png" alt="" width="120">
+    <h1 class="h4 mb-4 font-weight-normal">Please fill in the form</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="User Name ( your email address )" #userName>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" #password>
+    <select class="custom-select mb-5 mt-4" id="inputGroupSelect01" #type>
+      <option selected disabled>Choose account type...</option>
+      <option value=false>General Account</option>
+      <option value=true>Manager Account</option>
+    </select>
+    <button class="btn btn-lg btn-primary btn-block" (click)="signUp(userName.value, password.value, type.value)">Sign Up</button>
+  </div>
+</div>

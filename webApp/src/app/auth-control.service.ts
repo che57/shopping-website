@@ -15,7 +15,7 @@ export class AuthControlService {
   private userUrl = 'https://lab5-backend-3-che57.c9users.io/api/authcontroll';
   private action: string;
   private token;
-  private auth;
+  private auth = false;
   constructor(private http: HttpClient) { }
   signIn (user) {
     this.action = '/login';
@@ -24,5 +24,16 @@ export class AuthControlService {
   setToken (token, auth) {
     this.token = token;
     this.auth = auth;
+  }
+  getAuth () {
+    return this.auth;
+  }
+  signOut () {
+    this.action = '/logout';
+    return this.http.get(this.userUrl + this.action);
+  }
+  signUp (user) {
+    this.action = '/register';
+    return this.http.post(this.userUrl + this.action, user, httpOptions);
   }
 }

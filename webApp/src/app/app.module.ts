@@ -9,19 +9,24 @@ import { AlertModule } from 'ngx-bootstrap';
 import { ItemsWrapComponent } from './items-wrap/items-wrap.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AboutComponent } from './about/about.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemsWrapComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AlertModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    BsDropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
