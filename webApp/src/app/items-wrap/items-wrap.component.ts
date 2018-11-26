@@ -18,7 +18,6 @@ export class ItemsWrapComponent implements OnInit {
   }
   showPagination() {
     this.itemsService.getItemsAmount().subscribe((data) => {
-      console.log(data['amount']);
       this.itemAmount = data['amount'];
       this.nPerPage = data['nPerPage'];
     });

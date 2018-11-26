@@ -12,14 +12,11 @@ export class AppComponent implements OnInit {
     private authControlService: AuthControlService,
     private router: Router
   ) { }
-  // private isAuth = false;
-  // private isAdmin = false;
   authDisplay() {
-    return this.authControlService.getAuth();
+    return (localStorage.getItem('auth') === 'true');
   }
   signOut() {
     this.authControlService.signOut().subscribe((data) => {
-      console.log(data);
       this.authControlService.setToken(data['auth'], data['token']);
       this.router.navigate(['']);
     });
