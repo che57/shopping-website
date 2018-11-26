@@ -55,6 +55,10 @@ router.route('/register').post((req, res) => {
     else if(password == '' || password == null){
         res.json({msg: 'missing password'});
     }
+    else if(user.isAdmin != false && user.isAdmin != true){
+        console.log(user.isAdmin);
+        res.json({msg: 'missing account type!'});
+    }
     else{
         nev.createTempUser(user, function(err, existingPersistentUser, newTempUser) {
             // some sort of error
@@ -77,7 +81,7 @@ router.route('/register').post((req, res) => {
                                 user.password = hash;
                                 user.save((err)=>{
                                     if(err) res.send(err);
-                                    res.json({message: 'Register successfully!!'});
+                                    res.json({isRegistered: true, msg: 'Register successfully!!'});
                                 })
                             })
                         });
