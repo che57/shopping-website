@@ -1,0 +1,29 @@
+<div class="itemCard">
+  <h2>Item Information:</h2>
+  <div class="card" *ngIf="item != null">
+    <div class="card-body p-4">
+      <h3 class="card-title">{{item['name']}}</h3>
+      <p class="card-text">Price: ${{item['price']}}</p>
+      <p class="card-text">Tax: {{item['tax'] * 10}}%</p>
+      <p class="card-text">Stock: {{item['stock']}}</p>
+      <p class="card-text">Sales Volume: {{item['salesVolume']}}</p>
+    </div>
+  </div>
+  <h2>Comments:</h2>
+  <div class="card" *ngFor="let comment of comments">
+    <div class="card-body p-4" >
+      <h5 class="card-title">{{comment['userName']}}</h5>
+      <p class="card-text">Rating: {{comment['rating']}}</p>
+      <p class="card-text">Content: {{comment['content']}}</p>
+    </div>
+  </div>
+  <h2>Leave Comment:</h2>
+  <div *ngIf="authDisplay()">
+    <p>Rating ( 1-5 ): {{rate}}</p>
+    <input type="range" min="0" max="5" placeholder="Rating" #rating (change)="ratingChange(rating.value)">
+    <br>
+    <textarea placeholder="Comment" #comment style="width: 100%"></textarea>
+    <br>
+    <button class="btn btn-primary" (click)="writeComment(rating.value)">Write Comments</button>
+  </div>
+</div>

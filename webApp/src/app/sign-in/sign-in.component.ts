@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {HttpParams} from '@angular/common/http';
 import {AuthControlService} from '../auth-control.service';
 import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +12,8 @@ import {Router} from '@angular/router';
 export class SignInComponent implements OnInit {
   constructor(
     private authControlService: AuthControlService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   signIn(userName: string, password: string) {
@@ -20,8 +22,9 @@ export class SignInComponent implements OnInit {
       .set('password', password);
     this.authControlService.signIn(body.toString()).subscribe((data) => {
       if (data['auth']) {
-        this.authControlService.setToken(data['auth'], data['token']);
-        this.router.navigate(['']);
+        this.authControlService.setToken(data['auth'], data['token'], data['userName']);
+        // this.router.navigate(['']);
+        this.location.back();
       } else {
         alert(data['msg']);
       }

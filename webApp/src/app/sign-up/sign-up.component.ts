@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
       if (res['isRegistered']) {
         this.authControlService.signIn(body.toString()).subscribe((data) => {
           if (data['auth']) {
-            this.authControlService.setToken(data['auth'], data['token']);
+            this.authControlService.setToken(data['auth'], data['token'], data['userName']);
             this.router.navigate(['']);
           } else {
             alert(data['msg']);

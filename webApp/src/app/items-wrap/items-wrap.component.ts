@@ -37,4 +37,7 @@ export class ItemsWrapComponent implements OnInit {
     }
     return array;
   }
+  authDisplay() {
+    return (localStorage.getItem('auth') === 'true');
+  }
 }

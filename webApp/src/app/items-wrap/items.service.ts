@@ -15,4 +15,12 @@ export class ItemsService {
     const url = this.itemsUrl + '/amount';
     return this.httpClient.get(url);
   }
+  getItem(id) {
+    const url = this.itemsUrl + '/' + id;
+    return this.httpClient.get(url);
+  }
+  getItemComments(id) {
+    const url = this.itemsUrl + '/' + id + '/comments';
+    return this.httpClient.get(url);
+  }
 }

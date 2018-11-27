@@ -1,21 +1,27 @@
+<div class="card itemCard" *ngIf="!authDisplay()">
+  <div class="card-body p-4 text-center">
+    <h3 class="card-title">About</h3>
+    <p class="card-text">This is a online shopping website!</p>
+    <button class="btn btn-primary" routerLink="/signIn">Sign in for 100% experience!</button>
+  </div>
+</div>
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="card m-4" style="width: 18rem;" *ngFor="let item of items">
+      <div class="card m-4 hover" style="width: 18rem;" routerLink="/item/{{item['_id']}}" *ngFor="let item of items">
         <img class="card-img-top" src="../../assets/images/NoImageFound.png" alt="Card image cap">
-        <div class="card-body" id="{{item['_id']}}">
+        <div class="card-body">
           <h5 class="card-title">{{item['name']}}</h5>
           <p class="card-text price">Price: ${{item['price']}}</p>
           <p class="card-text tax">Tax: {{item['tax'] * 100}}%</p>
           <p class="card-text stock">Stock: {{item['stock']}}</p>
           <p class="card-text popularity">Popularity Point: {{item['salesVolume']}}</p>
-          <button class="btn btn-primary">Add</button>
         </div>
       </div>
     </div>
   </div>
   <nav>
-    <ul class="pagination justify-content-center pagination-lg">
+    <ul class="pagination justify-content-center pagination-lg" *ngIf="authDisplay()">
       <li class="page-item" *ngFor="let num of loopArray()"><a class="page-link" href="#" (click)="showItems(num - 1)">{{num}}</a></li>
     </ul>
   </nav>

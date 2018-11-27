@@ -11,6 +11,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AboutComponent } from './about/about.component';
+import { ItemComponent } from './item/item.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { AboutComponent } from './about/about.component';
     ItemsWrapComponent,
     SignInComponent,
     SignUpComponent,
-    AboutComponent
+    AboutComponent,
+    ItemComponent
   ],
   imports: [
     BrowserModule,

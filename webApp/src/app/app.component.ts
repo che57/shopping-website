@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthControlService} from './auth-control.service';
 import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +11,20 @@ import {Router} from '@angular/router';
 export class AppComponent implements OnInit {
   constructor (
     private authControlService: AuthControlService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
   authDisplay() {
     return (localStorage.getItem('auth') === 'true');
   }
   signOut() {
     this.authControlService.signOut().subscribe((data) => {
-      this.authControlService.setToken(data['auth'], data['token']);
+      this.authControlService.setToken(data['auth'], data['token'], data['userName']);
       this.router.navigate(['']);
     });
+  }
+  goBack() {
+    this.location.back();
   }
   ngOnInit() {
   }
