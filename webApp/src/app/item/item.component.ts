@@ -5,6 +5,7 @@ import {HttpParams} from '@angular/common/http';
 import {AuthControlService} from '../auth-control.service';
 import {CommentsService} from '../comments.service';
 import {CartService} from '../cart.service';
+import {CollectionService} from '../collection.service';
 
 @Component({
   selector: 'app-item',
@@ -17,14 +18,17 @@ export class ItemComponent implements OnInit {
   private comments;
   private itemId;
   private rate;
+  private collectionList;
   constructor(
     private itemsService: ItemsService,
     private cartService: CartService,
     private route: ActivatedRoute,
-    private commentService: CommentsService
+    private commentService: CommentsService,
+    private collectionService: CollectionService
   ) {
     this.loadItemInfo();
     this.loadItemComments();
+    this.getCollectionList();
   }
 
   ratingChange(rating) {
@@ -75,6 +79,14 @@ export class ItemComponent implements OnInit {
       this.loadItemInfo();
       console.log(data);
     });
+  }
+  getCollectionList() {
+    if (localStorage.getItem('auth') === 'true') {
+      this.collectionService.getMyCollection().subscribe((data) => {
+        console.log(data);
+        this.collectionList = data;
+      });
+    }
   }
   ngOnInit() {
   }

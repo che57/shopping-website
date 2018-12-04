@@ -17,9 +17,10 @@
       </div>
       <div class="input-group mb-3 w-50" *ngIf="authDisplay()">
         <select class="custom-select form-control" id="inputGroupSelect01" #type>
-          <option selected disabled>Choose account type...</option>
-          <option value=false>General Account</option>
-          <option value=true>Manager Account</option>
+          <option selected disabled>Choose Your Collection</option>
+          <option *ngFor="let c of collectionList" value="{{c['_id']}}">
+            {{c['collectionName']}}
+          </option>
         </select>
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button">Add to Collection</button>
