@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpParams} from '@angular/common/http';
 import {AuthControlService} from '../auth-control.service';
 import {CommentsService} from '../comments.service';
+import {CartService} from '../cart.service';
 
 @Component({
   selector: 'app-item',
@@ -18,7 +19,7 @@ export class ItemComponent implements OnInit {
   private rate;
   constructor(
     private itemsService: ItemsService,
-    private authControlService: AuthControlService,
+    private cartService: CartService,
     private route: ActivatedRoute,
     private commentService: CommentsService
   ) {
@@ -70,7 +71,7 @@ export class ItemComponent implements OnInit {
     const body = new HttpParams()
       .set('itemId', this.itemId)
       .set('itemQuantity', amount);
-    this.authControlService.addToCart(body.toString()).subscribe((data) => {
+    this.cartService.addToCart(body.toString()).subscribe((data) => {
       this.loadItemInfo();
       console.log(data);
     });

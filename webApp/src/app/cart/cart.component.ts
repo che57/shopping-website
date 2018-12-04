@@ -3,6 +3,7 @@ import {AuthControlService} from '../auth-control.service';
 import {ActivatedRoute} from '@angular/router';
 import {ItemsService} from '../items-wrap/items.service';
 import {HttpParams} from '@angular/common/http';
+import {CartService} from '../cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +16,7 @@ export class CartComponent implements OnInit {
   public checkOutOn;
   public cleanCartOn;
   constructor(
-    private authControlService: AuthControlService,
+    private cartService: CartService,
     private route: ActivatedRoute,
     private itemsService: ItemsService,
   ) {
@@ -30,12 +31,14 @@ export class CartComponent implements OnInit {
   loadCartItems() {
     this.totalPrice = 0;
     this.cartItems = new Array();
-    this.authControlService.getCartItems().subscribe((data) => {
+    this.cartService.getCartItems().subscribe((data) => {
+      // console.log(typeof data, data);
       for (let cItem of data) {
         this.itemsService.getItem(cItem.itemId).subscribe((res) => {
           this.cartItems.push({itemQuantity: cItem.itemQuantity , itemInfo: res, cItemId: cItem._id});
           this.totalPrice += cItem.itemQuantity * res['price'];
         });
+        // console.log(cItem);
       }
     });
   }
@@ -43,7 +46,7 @@ export class CartComponent implements OnInit {
     return (this.cartItems.length === 0);
   }
   checkOut() {
-    this.authControlService.checkOutCart().subscribe((res) => {
+    this.cartService.checkOutCart().subscribe((res) => {
       console.log(res);
       this.loadCartItems();
     });
@@ -56,7 +59,7 @@ export class CartComponent implements OnInit {
     this.cleanCartOn = false;
   }
   deleteItem(id) {
-    this.authControlService.deleteCartItem(id).subscribe((res) => {
+    this.cartService.deleteCartItem(id).subscribe((res) => {
       console.log(res);
       this.loadCartItems();
     });
@@ -69,7 +72,7 @@ export class CartComponent implements OnInit {
     const body = new HttpParams()
       .set('itemId', itemId)
       .set('itemQuantity', '1');
-    this.authControlService.addToCart(body.toString()).subscribe((data) => {
+    this.cartService.addToCart(body.toString()).subscribe((data) => {
       this.loadCartItems();
       console.log(data);
     });
@@ -82,7 +85,7 @@ export class CartComponent implements OnInit {
     const body = new HttpParams()
       .set('itemId', itemId)
       .set('itemQuantity', '-1');
-    this.authControlService.addToCart(body.toString()).subscribe((data) => {
+    this.cartService.addToCart(body.toString()).subscribe((data) => {
       this.loadCartItems();
       console.log(data);
     });

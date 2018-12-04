@@ -1,0 +1,16 @@
+<div class="itemCard">
+  <h2>Create Collection:</h2>
+  <div>
+    <p>Collection Name:</p>
+    <div class="input-group mb-3 w-25">
+      <input class="form-control" placeholder="Collection Name" #cn>
+    </div>
+    <br>
+    <p>Collection Description:</p>
+    <textarea class="form-control" placeholder="Description" #cd style="width: 100%"></textarea>
+    <br>
+    <input type="checkbox" checked #ck>Keep collection private.
+    <br>
+    <button class="btn btn-outline-secondary mt-3" (click)="createCollection(cn.value, cd.value, ck.checked)">Create Collection!</button>
+  </div>
+</div>

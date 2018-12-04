@@ -13,6 +13,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AboutComponent } from './about/about.component';
 import { ItemComponent } from './item/item.component';
 import { CartComponent } from './cart/cart.component';
+import { CollectionComponent } from './collection/collection.component';
+import { CreateCollectionComponent } from './create-collection/create-collection.component';
+import { MyCollectionComponent } from './my-collection/my-collection.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { CartComponent } from './cart/cart.component';
     SignUpComponent,
     AboutComponent,
     ItemComponent,
-    CartComponent
+    CartComponent,
+    CollectionComponent,
+    CreateCollectionComponent,
+    MyCollectionComponent
   ],
   imports: [
     BrowserModule,

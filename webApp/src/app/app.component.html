@@ -9,13 +9,19 @@
           <a class="nav-link" routerLink="/signIn">Sign In/ Sign Up <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item" *ngIf="authDisplay()">
-          <a class="nav-link" href="#">My Account<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item" *ngIf="authDisplay()">
           <a class="nav-link" routerLink="cart">Shopping Cart<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" *ngIf="authDisplay()">
-          <a class="nav-link" href="#">Collections<span class="sr-only">(current)</span></a>
+        <li class="nav-item dropdown show" *ngIf="authDisplay()" dropdown>
+          <a class="nav-link btn dropdown-toggle" aria-controls="dropdown-basic" dropdownToggle>
+            Collection <span class="caret"></span>
+          </a>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" routerLink="collection">All Collections</a></li>
+            <li role="menuitem"><a class="dropdown-item" routerLink="myCollection">My Collections</a></li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem"><a class="dropdown-item" routerLink="collection/createCollection">Create New Collection</a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item" *ngIf="authDisplay()">
           <a class="nav-link btn" (click)="signOut()">Sign Out<span class="sr-only">(current)</span></a>

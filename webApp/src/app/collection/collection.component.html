@@ -1,0 +1,13 @@
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="card m-4 hover" style="width: 18rem;" *ngFor="let collection of collections">
+        <div class="card-body">
+          <h5 class="card-title">{{collection['collectionName']}}</h5>
+          <p class="card-text price">{{collection['collectionDescription']}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

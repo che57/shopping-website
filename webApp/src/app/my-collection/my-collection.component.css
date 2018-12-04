@@ -1,0 +1,8 @@
+.hover:hover {
+  box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.itemCard {
+  width: 60%;
+  margin: 85px auto;
+}

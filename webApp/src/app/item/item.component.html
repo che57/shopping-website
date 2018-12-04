@@ -8,13 +8,24 @@
       <p class="card-text">Tax: {{item['tax'] * 10}}%</p>
       <p class="card-text">Stock: {{item['stock']}}</p>
       <p class="card-text">Sales Volume: {{item['salesVolume']}}</p>
-      <h6>Number of item add to cart:</h6>
-      <div class="input-group mb-3" *ngIf="authDisplay()">
+      <h6>Number of item add to shopping cart or collection:</h6>
+      <div class="input-group mb-3 w-50" *ngIf="authDisplay()">
         <input min="1" type="number" class="form-control" value="1" #amount>
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" type="button" (click)="addToCart(amount.value)">Add to Shopping Cart</button>
         </div>
       </div>
+      <div class="input-group mb-3 w-50" *ngIf="authDisplay()">
+        <select class="custom-select form-control" id="inputGroupSelect01" #type>
+          <option selected disabled>Choose account type...</option>
+          <option value=false>General Account</option>
+          <option value=true>Manager Account</option>
+        </select>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">Add to Collection</button>
+        </div>
+      </div>
+
     </div>
   </div>
   <h2>Comments:</h2>
