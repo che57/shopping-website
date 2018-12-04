@@ -1,0 +1,68 @@
+<div class="itemCard">
+  <div class="card" *ngFor="let cI of cartItems">
+    <div class="card-body p-4" >
+      <h5 class="card-title">{{cI['itemInfo']['name']}}</h5>
+      <p class="card-text">Price: ${{cI['itemInfo']['price']}}</p>
+      <p class="card-text">Stock: {{cI['itemInfo']['stock']}}</p>
+      <p class="card-text">Quantity:</p>
+      <ul class="pagination">
+        <li class="page-item">
+          <button class="page-link" (click)="addItem(cI['itemInfo']['stock'], cI['itemInfo']['_id'])"> + </button>
+        </li>
+        <li class="page-item"><p class="page-link"> {{cI['itemQuantity']}} </p></li>
+        <li class="page-item">
+          <button class="page-link" (click)="minItem(cI['itemQuantity'], cI['cItemId'], cI['itemInfo']['_id'])"> - </button>
+        </li>
+      </ul>
+      <button (click)="deleteItem(cI['cItemId'])" class="btn btn-danger float-right">Delete</button>
+    </div>
+  </div>
+  <div class="card mt-3" *ngIf="!checkEmpty()">
+    <div class="card-body p-4" >
+      <h4>Total Price: ${{totalPrice}}</h4>
+      <button class="btn btn-primary" (click)="checkOutOn = true">Check Out!</button>
+      <button class="btn btn-danger float-right" (click)="cleanCartOn = true">Clean Shopping Cart</button>
+    </div>
+  </div>
+  <h4 *ngIf="checkEmpty()">Shopping Cart is empty . . .</h4>
+</div>
+
+<div *ngIf="checkOutOn" class="fixed-top">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+        <button type="button" class="close" (click)="checkOutOn = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to check out?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="checkOutOn = false">Not Now</button>
+        <button type="button" class="btn btn-primary" (click)="checkOut()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="cleanCartOn" class="fixed-top">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Clean Shopping Cart</h5>
+        <button type="button" class="close" (click)="cleanCartOn = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to clean shopping cart?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cleanCartOn = false">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="cleanCart()">Clean Shopping Cart</button>
+      </div>
+    </div>
+  </div>
+</div>

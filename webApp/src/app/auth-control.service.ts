@@ -1,24 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Observable} from 'rxjs';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/x-www-form-urlencoded'
-  })
-};
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthControlService {
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/x-www-form-urlencoded',
-      'Authorization': 'bearer ' + localStorage.getItem('token')
-    })
-  };
   private i = new HttpHeaders()
     .set( 'Content-Type',  'application/x-www-form-urlencoded');
   private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
@@ -27,8 +14,10 @@ export class AuthControlService {
   private action: string;
   constructor(private http: HttpClient) { }
   signIn (user) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded');
     this.action = '/login';
-    return this.http.post(this.authControl + this.action, user, this.httpOptions);
+    return this.http.post(this.authControl + this.action, user, {headers: headers});
   }
   setToken (auth, token, userName) {
     localStorage.setItem('auth', auth);
@@ -40,19 +29,37 @@ export class AuthControlService {
     return this.http.get(this.authControl + this.action);
   }
   signUp (user) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded');
     this.action = '/register';
-    return this.http.post(this.authControl + this.action, user, this.httpOptions);
+    return this.http.post(this.authControl + this.action, user, {headers: headers});
   }
-  postComment(comment): Observable<any> {
-    console.log(this.httpOptions);
-    console.log('1: ', this.i);
-    this.action = '/comments';
-
-    // let i = new HttpHeaders().set( 'Content-Type',  'application/x-www-form-urlencoded');
-    // console.log(i);
-    return this.http.post<any>(this.authUrl + this.action, comment, httpOptions);
+  addToCart (cItem) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/cartItems';
+    return this.http.post(this.authUrl + this.action, cItem, {headers: headers});
   }
-  getToken() {
-    return localStorage.getItem('token');
+  getCartItems () {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/users/cartItems';
+    return this.http.get(this.authUrl + this.action, {headers: headers});
+  }
+  deleteCartItem(id) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/cartItems/';
+    return this.http.delete(this.authUrl + this.action + id, {headers: headers});
+  }
+  checkOutCart() {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/users/cartItems/checkOut';
+    return this.http.delete(this.authUrl + this.action, {headers: headers});
   }
 }

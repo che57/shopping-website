@@ -3,10 +3,18 @@
   <div class="card" *ngIf="item != null">
     <div class="card-body p-4">
       <h3 class="card-title">{{item['name']}}</h3>
+      <p class="card-text">Description: {{item['description']}}</p>
       <p class="card-text">Price: ${{item['price']}}</p>
       <p class="card-text">Tax: {{item['tax'] * 10}}%</p>
       <p class="card-text">Stock: {{item['stock']}}</p>
       <p class="card-text">Sales Volume: {{item['salesVolume']}}</p>
+      <h6>Number of item add to cart:</h6>
+      <div class="input-group mb-3" *ngIf="authDisplay()">
+        <input min="1" type="number" class="form-control" value="1" #amount>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="addToCart(amount.value)">Add to Shopping Cart</button>
+        </div>
+      </div>
     </div>
   </div>
   <h2>Comments:</h2>
@@ -17,13 +25,13 @@
       <p class="card-text">Content: {{comment['content']}}</p>
     </div>
   </div>
-  <h2>Leave Comment:</h2>
+  <h2 *ngIf="authDisplay()">Leave Comment:</h2>
   <div *ngIf="authDisplay()">
     <p>Rating ( 1-5 ): {{rate}}</p>
     <input type="range" min="0" max="5" placeholder="Rating" #rating (change)="ratingChange(rating.value)">
     <br>
     <textarea placeholder="Comment" #comment style="width: 100%"></textarea>
     <br>
-    <button class="btn btn-primary" (click)="writeComment(rating.value)">Write Comments</button>
+    <button class="btn btn-outline-secondary mt-1" (click)="writeComment(rating.value, comment.value)">Write Comments</button>
   </div>
 </div>
