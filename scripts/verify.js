@@ -8,7 +8,7 @@ function verifyToken(req, res, next) {
     else{
         const token = authorization.split('Bearer ')[1];
         jwt.verify(token, config.secret, (err, decoded) => {
-            if(err) res.status(401).send(err);
+            if(err) return res.status(401).send(err);
             req.userId = decoded.id;
             req.isAdmin = decoded.isAdmin;
             next();

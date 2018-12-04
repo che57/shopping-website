@@ -2,19 +2,21 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var verifyToken = require("./scripts/verify")
-var verifyAdmin = require("./scripts/verifyAdmin")
+var verifyToken = require("./scripts/verify");
+var verifyAdmin = require("./scripts/verifyAdmin");
+var cors = require("cors");
 
-app.all("/api/*", function (req, res, next) {
+/*app.all("/api/*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization,   Content-Type, X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With,Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
     return next();
 });
-
+*/
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.use(cors());
 var mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost:27017/items');
 
