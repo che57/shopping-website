@@ -50,13 +50,13 @@ router.route('/users')
 router.route('/comments')
     .post((req, res)=>{
         var comment = new Comment();
-        comment.userId = req.body.userId;
+        comment.userName = req.body.userName;
         comment.content = req.body.content;
         comment.rating = req.body.rating;
         comment.itemId = req.body.itemId;
         comment.state = 1;
-        if(comment.userId == null || comment.userId == '') {
-            res.json({msg: 'missing userId!'});
+        if(comment.userName == null || comment.userName == '') {
+            res.json({msg: 'missing userName!'});
         }
         else if(comment.content == null) {
             res.json({msg: 'missing content!'});
@@ -75,29 +75,13 @@ router.route('/comments')
         }
     })
     
-router.route('/items/:item_id/comments/')
-    .get((req, res)=>{
-        Comment.find({itemId: req.params.item_id}, (err, comments)=>{
-            if(err) res.send(err);
-            res.json(comments);
-        })
-    })
-    
-router.route('/comments/:comment_id')
-    .get((req, res)=>{
-        Comment.findById(req.params.comment_id, (err, comments)=>{
-                if(err) res.send(err);
-                res.json(comments);
-        })
-    })
-    
 router.route('/cartItems')
     .post((req, res) => {
         var cartItem = new CartItem();
-        cartItem.userId = req.body.userId;
+        cartItem.userId = req.userId;
         cartItem.itemId = req.body.itemId;
         cartItem.itemQuantity = req.body.itemQuantity;
-        
+
         if(cartItem.userId == '' || cartItem.userId == null) {
             res.json({msg: 'missing userId'});
         }
@@ -108,9 +92,31 @@ router.route('/cartItems')
             res.json({msg: 'missing itemQuantity'});
         }
         else{
-            cartItem.save((err) => {
-                if(err) res.send(err);
-                res.json({msg: 'New cartItem created!'});
+            Item.find({_id: cartItem.itemId}, (err, items) => {
+                if(err) return res.send(err);
+                if(items[0].stock < cartItem.itemQuantity) return res.json({msg: 'no enough stock'});
+                else {
+                    items[0].stock -= cartItem.itemQuantity;
+                    items[0].save((err) => {
+                        if(err) return res.send(err);
+                        CartItem.find({userId: req.userId, itemId: cartItem.itemId}, (err, cartItems) => {
+                            if(err) return res.send(err);
+                            if(cartItems.length == 0) {
+                                cartItem.save((err) => {
+                                    if(err) res.send(err);
+                                    res.json({msg: 'New cartItem created!'});
+                                })
+                            }
+                            else {
+                                cartItems[0].itemQuantity += cartItem.itemQuantity;
+                                cartItems[0].save((err) => {
+                                    if(err) res.send(err);
+                                    res.json({msg: 'cartItem quantity updated!'});                        
+                                })
+                            }
+                        })
+                    })
+                }
             })
         }
     })
@@ -134,9 +140,19 @@ router.route('/cartItems/:cartItem_id')
         })
     })
     .delete((req, res) => {
-        CartItem.remove({_id: req.params.cartItem_id}, (err, cartItem) => {
+        CartItem.findById(req.params.cartItem_id, (err, cartItem) => {
             if(err) res.send(err);
-            res.json({msg: 'cartItem deleted!'});
+            Item.findById(cartItem.itemId, (err, item) => {
+                if(err) return res.send(err);
+                item.stock += cartItem.itemQuantity;
+                item.save((err) => {
+                    if(err) return res.send(err);
+                    CartItem.remove({_id: req.params.cartItem_id}, (err, cartItem) => {
+                        if(err) res.send(err);
+                        res.json({msg: 'CartItem deleted!'});
+                    })
+                })
+            })
         })
     })
 router.route('/users/cartItems')
@@ -147,6 +163,15 @@ router.route('/users/cartItems')
         })
     })
     
+router.route('/users/cartItems/checkOut')
+    .delete((req, res) => {
+        CartItem.remove({userId: req.userId}, (err, cartItems) => {
+            if(err) return res.send(err);
+            res.json({msg: 'check out successfully!'});
+        });
+    })
+
+    
 router.route('/collections')
     .get((req, res) => {
         Collection.find({visibilityState: 1}, (err, collection) => {
@@ -156,7 +181,7 @@ router.route('/collections')
     })
     .post((req, res) => {
         var collection = new Collection();
-        collection.userId = req.body.userId;
+        collection.userId = req.userId;
         collection.collectionName = req.body.collectionName;
         collection.collectionDescription = req.body.collectionDescription;
         collection.visibilityState == req.body.visibilityState;

@@ -25,7 +25,7 @@ router.use((req, res, next)=>{
 router.route('/items')
     .get((req, res)=>{
         var nSkip = req.query.page * nPerPage;
-        Item.find().sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
+        Item.find({$where: 'this.stock > 0'}).sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
             if(err) res.send(err);
             res.json(items);
         })
@@ -78,10 +78,15 @@ router.route('/users')
             res.json(users);
         })
     });
-router.route('/items/:item_id/comments/')
+router.route('/items/:item_id/comments')
+        // Item.find({$where: 'this.stock > 0'}).sort({salesVolume: -1}).skip(nSkip).limit(nPerPage).exec((err, items)=>{
+        //     if(err) res.send(err);
+        //     res.json(items);
+        // })
     .get((req, res)=>{
         Comment.find({itemId: req.params.item_id}, (err, comments)=>{
             if(err) res.send(err);
+        }).sort({$natural:-1}).limit(5).exec((err, comments) => {
             res.json(comments);
         })
     });
