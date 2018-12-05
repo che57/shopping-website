@@ -184,17 +184,18 @@ router.route('/collections')
         collection.userId = req.userId;
         collection.collectionName = req.body.collectionName;
         collection.collectionDescription = req.body.collectionDescription;
-        collection.visibilityState == req.body.visibilityState;
+        collection.visibilityState = req.body.visibilityState;
+        collection.userName = req.body.userName;
         if(collection.userId == null || collection.userId == ''){
             res.json({msg: "missing userId"});
+        }
+        else if(collection.userName == null || collection.userName == ''){
+            res.json({msg: "missing userName"});
         }
         else if(collection.collectionName == null || collection.collectionName == ''){
             collection.collectionName = 'Collection';
         }
         else{
-            if(collection.visibilityState != 1 || collection.visibilityState != 0){
-                collection.visibilityState = 0;
-            }
             collection.save((err) => {
                 if(err) res.send(err);
                 res.json({msg: 'New collection created!'});
@@ -248,8 +249,8 @@ router.route('/collectionItems')
         var collectionItem = new CollectionItem();
         collectionItem.collectionId = req.body.collectionId;
         collectionItem.itemId = req.body.itemId;
-        collectionItem.itemCName = req.body.itemCName;
-        collectionItem.itemCDescription = req.body.itemCDescription;
+        collectionItem.quantity = req.body.quantity;
+        collectionItem.itemName = req.body.itemName;
 
         if(collectionItem.collectionId == '' || collectionItem.collectionId == null) {
             res.json({msg: 'missing collectionId'});
@@ -257,16 +258,31 @@ router.route('/collectionItems')
         else if(collectionItem.itemId == '' || collectionItem.itemId == null) {
             res.json({msg: 'missing itemId'});
         }
-        else if(collectionItem.itemCName == '' || collectionItem.itemCName == null) {
-            Item.findById(collectionItem.itemId, (err, item) => {
-                if(err) res.send(err);
-                collectionItem.itemCName = item.name;
-            })
+        else if(collectionItem.quantity == '' || collectionItem.quantity == null) {
+            res.json({msg: 'missing quantity'});
+        }
+        else if(collectionItem.itemName == '' || collectionItem.itemName == null) {
+            res.json({msg: 'missing itemName'});
         }
         else{
             collectionItem.save((err) => {
-                if(err) res.send(err);
-                res.json({msg: 'New collectionItem created!'});
+                if(err) return res.send(err);
+                CollectionItem.find({itemId: collectionItem.itemId}, (err, collectionItems) => {
+                    if(err) return res.send(err);
+                    if(collectionItems.length == 1) {
+                        collectionItem.save((err) => {
+                            if(err) return res.send(err);
+                            res.json({msg: 'New collectionItem created!'});
+                        })
+                    }
+                    else {
+                        collectionItems[0].quantity += collectionItem.quantity;
+                        collectionItems[0].save((err) => {
+                            if(err) return res.send(err);
+                            res.json({msg: 'collectionItem updated!'})
+                        })
+                    }
+                })
             })
         }
     })

@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var CollectionSchema = new Schema({
     userId: String,
+    userName: String,
     collectionName: String,
     collectionDescription: String,
     visibilityState: Number

@@ -105,7 +105,7 @@ router.route('/login').post((req, res) => {
         bcrypt.compare(req.body.password, user.password, (err, isValid) => {
             if(!isValid) return res.json({auth: false, msg: 'Username or Password is invalid!'});
             else if(err) return res.send(err);
-            else if(user.state == 0) return res.json({auth: false, msg: 'The account is deactivated, please contact the store manager.'});
+            else if(user.state == 0) return res.json({auth: false, msg: 'The account is deactivated, please contact the store manager. . .'})
             else{
                 if(user.isAdmin == true){
                     var token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, config.secret, {expiresIn: 86400});
