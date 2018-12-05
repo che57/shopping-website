@@ -121,5 +121,12 @@ export class ItemComponent implements OnInit {
   }
   ngOnInit() {
   }
-
+  updateCommentState(id) {
+    const body = new HttpParams()
+      .set('state', '0');
+    this.commentService.putComment(id, body.toString()).subscribe((res) => {
+      console.log(res);
+      this.loadItemComments();
+    });
+  }
 }

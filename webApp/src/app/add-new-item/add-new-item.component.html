@@ -1,0 +1,20 @@
+<div class="itemCard">
+  <h2>Add New Item:</h2>
+  <div>
+    <h6 class="mt-3">Item Name:</h6>
+    <input class="form-control" placeholder="Item Name" #n>
+    <br>
+    <h6>Description:</h6>
+    <textarea class="form-control" placeholder="Description" #d style="width: 100%"></textarea>
+    <br>
+    <h6>Price:</h6>
+    <input min="1" type="number" class="form-control" #p>
+    <br>
+    <h6>Tax(%):</h6>
+    <input min="1" type="number" class="form-control" #t>
+    <br>
+    <h6>Stock:</h6>
+    <input min="1" type="number" class="form-control" #s>
+    <button (click)="addNewItem(n.value, d.value, p.value, t.value, s.value)" class="btn btn-outline-secondary mt-3">Create Item!</button>
+  </div>
+</div>

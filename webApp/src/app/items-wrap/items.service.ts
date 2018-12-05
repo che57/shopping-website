@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
   itemsUrl = 'https://lab5-backend-3-che57.c9users.io/api/items';
+  authItemsUrl = 'https://lab5-backend-3-che57.c9users.io/api/auth/items';
   constructor(private httpClient: HttpClient) { }
   getItems(page) {
-    const url = this.itemsUrl + '?page=' + page.toString();
-    return this.httpClient.get(url);
+    if ((localStorage.getItem('auth') === 'true')) {
+      const headers = new HttpHeaders()
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .set('Authorization', 'Bearer ' + localStorage.getItem('token'));      const url = this.authItemsUrl + '?page=' + page.toString();
+      return this.httpClient.get(url, {headers: headers});
+    }
+    return this.httpClient.get(this.itemsUrl);
   }
   getItemsAmount() {
     const url = this.itemsUrl + '/amount';

@@ -58,6 +58,7 @@
       <h5 class="card-title">{{comment['userName']}}</h5>
       <p class="card-text">Rating: {{comment['rating']}}</p>
       <p class="card-text">Content: {{comment['content']}}</p>
+      <button *ngIf="adminDisplay()" class="btn-outline-primary btn" (click)="updateCommentState(comment['_id'])">Hide Comment</button>
     </div>
   </div>
   <h2 *ngIf="authDisplay()">Leave Comment:</h2>

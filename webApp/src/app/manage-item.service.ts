@@ -20,7 +20,7 @@ export class ManageItemService {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.action = '/users';
+    this.action = '/items';
     return this.http.post(this.adminUrl + this.action, item, {headers: headers});
   }
   deleteItem(id) {
