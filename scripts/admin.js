@@ -61,6 +61,7 @@ router.route('/items/:item_id')
         Item.findById(req.params.item_id, (err, item)=>{
             if(err) res.send(err);
             if(req.body.name != null && req.body.name != '') item.name = req.body.name;
+            if(req.body.iDescription != null && req.body.iDescription != '') item.iDescription = req.body.iDescription;
             if(req.body.price != null && req.body.price != '') item.price = req.body.price;
             if(req.body.stock != null && req.body.stock != '') item.stock = req.body.stock;
             if(req.body.tax != null){
@@ -104,7 +105,7 @@ router.route('/users/:user_id')
             if(err) res.send(err);
             if(req.body.password != null && req.body.password != '') user.password = req.body.password;
             if(req.body.state != null && req.body.state != '') user.state = req.body.state;
-            if(req.body.isAdmin == true) user.isAdmin = true;
+            if(req.body.isAdmin != null && req.body.isAdmin != '') user.isAdmin = req.body.isAdmin;
             user.save((err)=>{
                 if(err) res.send(err);
                 res.json({msg: "User information updated!!"});
