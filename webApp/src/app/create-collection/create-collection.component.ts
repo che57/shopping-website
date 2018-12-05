@@ -27,6 +27,7 @@ export class CreateCollectionComponent implements OnInit {
     const body = new HttpParams()
       .set('collectionName', cName)
       .set('collectionDescription', cDescription)
+      .set('userName', localStorage.getItem('userName'))
       .set('visibilityState', stateCode.toString());
     this.collectionService.postCollection(body.toString()).subscribe((data) => {
       console.log(data);

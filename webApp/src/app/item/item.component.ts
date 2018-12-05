@@ -19,6 +19,7 @@ export class ItemComponent implements OnInit {
   private itemId;
   private rate;
   private collectionList;
+  private itemName;
   constructor(
     private itemsService: ItemsService,
     private cartService: CartService,
@@ -37,6 +38,7 @@ export class ItemComponent implements OnInit {
   loadItemInfo() {
     this.route.params.subscribe((params) => {
       this.itemsService.getItem(params['id']).subscribe((data) => {
+        this.itemName = data['name'];
         this.item = data;
       });
     });
@@ -68,7 +70,7 @@ export class ItemComponent implements OnInit {
     if (amount <= 0) {
       alert('Invalid Input');
       return;
-    } else if (amount > this.item['stock']){
+    } else if (amount > this.item['stock']) {
       alert('No Enough Stock!');
       return;
     }
@@ -87,6 +89,21 @@ export class ItemComponent implements OnInit {
         this.collectionList = data;
       });
     }
+  }
+  addToCollection(collectionId, amount) {
+    if (collectionId === '-1') {
+      alert('Please select a collection to continue!');
+      return;
+    }
+    const body = new HttpParams()
+      .set('itemId', this.itemId)
+      .set('collectionId', collectionId)
+      .set('quantity', amount)
+      .set('itemName', this.itemName);
+    this.collectionService.postCollectionItem(body.toString()).subscribe((res) => {
+      console.log(res);
+      alert(res['msg']);
+    });
   }
   ngOnInit() {
   }

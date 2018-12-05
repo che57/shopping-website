@@ -32,4 +32,25 @@ export class CollectionService {
     this.action = '/users/collections';
     return this.http.get(this.authUrl + this.action, {headers: headers});
   }
+  postCollectionItem(cItem) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collectionItems';
+    return this.http.post(this.authUrl + this.action, cItem, {headers: headers});
+  }
+  getCollectionItems(id) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collections/' + id + '/collectionItems';
+    return this.http.get(this.authUrl + this.action, {headers: headers});
+  }
+  getCollectionInfo(id) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collections/' + id;
+    return this.http.get(this.authUrl + this.action, {headers: headers});
+  }
 }

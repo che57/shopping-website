@@ -9,6 +9,7 @@ import {CartComponent} from './cart/cart.component';
 import {CollectionComponent} from './collection/collection.component';
 import {CreateCollectionComponent} from './create-collection/create-collection.component';
 import {MyCollectionComponent} from './my-collection/my-collection.component';
+import {CollectionItemComponent} from './collection-item/collection-item.component';
 
 const routes: Routes = [
   {path: '', component: ItemsWrapComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent},
   {path: 'collection', component: CollectionComponent},
   {path: 'collection/createCollection', component: CreateCollectionComponent},
-  {path: 'myCollection', component: MyCollectionComponent}
+  {path: 'myCollection', component: MyCollectionComponent},
+  {path: 'collection/:id', component: CollectionItemComponent}
 ];
 
 @NgModule({

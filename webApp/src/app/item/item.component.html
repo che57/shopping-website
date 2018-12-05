@@ -16,14 +16,15 @@
         </div>
       </div>
       <div class="input-group mb-3 w-50" *ngIf="authDisplay()">
-        <select class="custom-select form-control" id="inputGroupSelect01" #type>
-          <option selected disabled>Choose Your Collection</option>
+        <input min="1" type="number" class="form-control" value="1" #a>
+        <select class="custom-select form-control" id="inputGroupSelect01" #col>
+          <option selected disabled value=-1>Choose Your Collection</option>
           <option *ngFor="let c of collectionList" value="{{c['_id']}}">
             {{c['collectionName']}}
           </option>
         </select>
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">Add to Collection</button>
+          <button class="btn btn-outline-secondary" (click)="addToCollection(col.value, a.value)" type="button">Add to Collection</button>
         </div>
       </div>
 

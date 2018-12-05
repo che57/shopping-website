@@ -16,6 +16,7 @@ import { CartComponent } from './cart/cart.component';
 import { CollectionComponent } from './collection/collection.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { MyCollectionComponent } from './my-collection/my-collection.component';
+import { CollectionItemComponent } from './collection-item/collection-item.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MyCollectionComponent } from './my-collection/my-collection.component';
     CartComponent,
     CollectionComponent,
     CreateCollectionComponent,
-    MyCollectionComponent
+    MyCollectionComponent,
+    CollectionItemComponent
   ],
   imports: [
     BrowserModule,
