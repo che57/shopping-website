@@ -8,15 +8,16 @@
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="card m-4 hover" style="width: 18rem;" routerLink="/item/{{item['_id']}}" *ngFor="let item of items">
-        <img class="card-img-top" src="../../assets/images/NoImageFound.png" alt="Card image cap">
-        <div class="card-body">
+      <div class="card m-4 hover" style="width: 18rem;" *ngFor="let item of items">
+        <img class="card-img-top" routerLink="/item/{{item['_id']}}" src="../../assets/images/NoImageFound.png" alt="Card image cap">
+        <div class="card-body" routerLink="/item/{{item['_id']}}">
           <h5 class="card-title">{{item['name']}}</h5>
           <p class="card-text price">Price: ${{item['price']}}</p>
           <p class="card-text tax">Tax: {{item['tax'] * 100}}%</p>
           <p class="card-text stock">Stock: {{item['stock']}}</p>
           <p class="card-text popularity">Popularity Point: {{item['salesVolume']}}</p>
         </div>
+        <button class="btn btn-outline-danger" *ngIf="adminDisplay()" (click)="removeItem(item['_id'])">Delete</button>
       </div>
     </div>
   </div>

@@ -36,7 +36,7 @@ export class CartComponent implements OnInit {
       for (let cItem of data) {
         this.itemsService.getItem(cItem.itemId).subscribe((res) => {
           this.cartItems.push({itemQuantity: cItem.itemQuantity , itemInfo: res, cItemId: cItem._id});
-          this.totalPrice += cItem.itemQuantity * res['price'];
+          this.totalPrice += cItem.itemQuantity * res['price'] * (res['tax'] + 1);
         });
         // console.log(cItem);
       }

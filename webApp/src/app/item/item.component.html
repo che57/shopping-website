@@ -3,9 +3,9 @@
   <div class="card" *ngIf="item != null">
     <div class="card-body p-4">
       <h3 class="card-title">{{item['name']}}</h3>
-      <p class="card-text">Description: {{item['description']}}</p>
+      <p class="card-text">Description: {{item['iDescription']}}</p>
       <p class="card-text">Price: ${{item['price']}}</p>
-      <p class="card-text">Tax: {{item['tax'] * 10}}%</p>
+      <p class="card-text">Tax: {{item['tax'] * 100}}%</p>
       <p class="card-text">Stock: {{item['stock']}}</p>
       <p class="card-text">Sales Volume: {{item['salesVolume']}}</p>
       <h6>Number of item add to shopping cart or collection:</h6>
@@ -15,7 +15,7 @@
           <button class="btn btn-outline-secondary" type="button" (click)="addToCart(amount.value)">Add to Shopping Cart</button>
         </div>
       </div>
-      <div class="input-group mb-3 w-50" *ngIf="authDisplay()">
+      <div class="input-group mb-3 w-75" *ngIf="authDisplay()">
         <input min="1" type="number" class="form-control" value="1" #a>
         <select class="custom-select form-control" id="inputGroupSelect01" #col>
           <option selected disabled value=-1>Choose Your Collection</option>
@@ -26,6 +26,28 @@
         <div class="input-group-append">
           <button class="btn btn-outline-secondary" (click)="addToCollection(col.value, a.value)" type="button">Add to Collection</button>
         </div>
+      </div>
+      <div class="w-25" *ngIf="adminDisplay()">
+        <h6>Modify Item Name:</h6>
+        <br>
+        <input type="text" class="form-control" value="{{item['name']}}" #n>
+        <br>
+        <h6>Modify Item Description:</h6>
+        <br>
+        <textarea type="text" class="form-control" value="{{item['iDescription']}}" #d></textarea>
+        <br>
+        <h6>Modify Price:</h6>
+        <br>
+        <input min="1" type="number" class="form-control" value="{{item['price']}}" #p>
+        <br>
+        <h6>Modify Tax:</h6>
+        <br>
+        <input min="1" type="number" class="form-control" value="{{item['tax'] * 100}}" #t>
+        <br>
+        <h6>Modify Stock:</h6>
+        <br>
+        <input min="1" type="number" class="form-control" value="{{item['stock']}}" #s>
+        <button class="btn btn-outline-primary mt-3" type="button" (click)="updateItemInfo(n.value, d.value, s.value, p.value, t.value)">Save Changes</button>
       </div>
 
     </div>

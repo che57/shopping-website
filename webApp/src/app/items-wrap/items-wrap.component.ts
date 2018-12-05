@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemsService } from './items.service';
 import { HttpClient } from '@angular/common/http';
+import {ManageItemService} from '../manage-item.service';
 
 @Component({
   selector: 'app-items-wrap',
@@ -12,7 +13,10 @@ export class ItemsWrapComponent implements OnInit {
   private items;
   private itemAmount;
   private nPerPage;
-  constructor(private itemsService: ItemsService) {
+  constructor(
+    private itemsService: ItemsService,
+    private manageItemService: ManageItemService
+  ) {
     this.showItems(0);
     this.showPagination();
   }
@@ -39,5 +43,15 @@ export class ItemsWrapComponent implements OnInit {
   }
   authDisplay() {
     return (localStorage.getItem('auth') === 'true');
+  }
+  adminDisplay() {
+    return (localStorage.getItem('admin') === 'true');
+  }
+  removeItem(id) {
+    this.manageItemService.deleteItem(id).subscribe((res) => {
+      alert(res['msg']);
+      this.showItems(0);
+      this.showPagination();
+    });
   }
 }

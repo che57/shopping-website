@@ -5,6 +5,7 @@ import {HttpParams} from '@angular/common/http';
 import {CommentsService} from '../comments.service';
 import {CartService} from '../cart.service';
 import {CollectionService} from '../collection.service';
+import {ManageItemService} from '../manage-item.service';
 
 @Component({
   selector: 'app-item',
@@ -24,7 +25,8 @@ export class ItemComponent implements OnInit {
     private cartService: CartService,
     private route: ActivatedRoute,
     private commentService: CommentsService,
-    private collectionService: CollectionService
+    private collectionService: CollectionService,
+    private manageItemService: ManageItemService
   ) {
     this.loadItemInfo();
     this.loadItemComments();
@@ -53,6 +55,9 @@ export class ItemComponent implements OnInit {
   authDisplay() {
     return (localStorage.getItem('auth') === 'true');
   }
+  adminDisplay() {
+    return (localStorage.getItem('admin') === 'true');
+  }
   writeComment(rating: string, content: string) {
     const body = new HttpParams()
       .set('userName', localStorage.getItem('userName'))
@@ -78,13 +83,11 @@ export class ItemComponent implements OnInit {
       .set('itemQuantity', amount);
     this.cartService.addToCart(body.toString()).subscribe((data) => {
       this.loadItemInfo();
-      console.log(data);
     });
   }
   getCollectionList() {
     if (localStorage.getItem('auth') === 'true') {
       this.collectionService.getMyCollection().subscribe((data) => {
-        console.log(data);
         this.collectionList = data;
       });
     }
@@ -102,6 +105,18 @@ export class ItemComponent implements OnInit {
     this.collectionService.postCollectionItem(body.toString()).subscribe((res) => {
       console.log(res);
       alert(res['msg']);
+    });
+  }
+  updateItemInfo(name, description, stock, price, tax) {
+    const body = new HttpParams()
+      .set('name', name)
+      .set('iDescription', description)
+      .set('price', price)
+      .set('stock', stock)
+      .set('tax', tax / 100);
+    this.manageItemService.putItem(this.itemId, body.toString()).subscribe((res) => {
+      alert(res['msg']);
+      this.loadItemInfo();
     });
   }
   ngOnInit() {
