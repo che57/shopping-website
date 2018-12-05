@@ -23,4 +23,10 @@ export class MyCollectionComponent implements OnInit {
       this.collections = data;
     });
   }
+  removeCollection(id) {
+    this.collectionService.deleteCollection(id).subscribe((res) => {
+      console.log(res);
+      this.renderMyCollections();
+    });
+  }
 }
