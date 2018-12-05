@@ -11,6 +11,7 @@ import {CreateCollectionComponent} from './create-collection/create-collection.c
 import {MyCollectionComponent} from './my-collection/my-collection.component';
 import {CollectionItemComponent} from './collection-item/collection-item.component';
 import {MyCollectionItemComponent} from './my-collection-item/my-collection-item.component';
+import {ManageUserComponent} from './manage-user/manage-user.component';
 
 const routes: Routes = [
   {path: '', component: ItemsWrapComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'collection/createCollection', component: CreateCollectionComponent},
   {path: 'myCollection', component: MyCollectionComponent},
   {path: 'collection/:id', component: CollectionItemComponent},
-  {path: 'myCollection/:id', component: MyCollectionItemComponent}
+  {path: 'myCollection/:id', component: MyCollectionItemComponent},
+  {path: 'manageUser', component: ManageUserComponent}
 ];
 
 @NgModule({

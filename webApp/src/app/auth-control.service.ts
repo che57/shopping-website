@@ -16,10 +16,11 @@ export class AuthControlService {
     this.action = '/login';
     return this.http.post(this.authControl + this.action, user, {headers: headers});
   }
-  setToken (auth, token, userName) {
+  setToken (auth, token, userName, admin) {
     localStorage.setItem('auth', auth);
     localStorage.setItem('token', token);
     localStorage.setItem('userName', userName);
+    localStorage.setItem('admin', admin);
   }
   signOut () {
     this.action = '/logout';

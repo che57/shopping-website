@@ -1,0 +1,16 @@
+<div class="card itemCard" *ngIf="users != null">
+  <div class="card-body">
+    <h5 class="card-title">User list: </h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let user of users">
+      {{user['userName']}}
+      <div class="btn-group float-right">
+        <button class="btn btn-outline-success" type="button" *ngIf="!checkActivate(user['state'])" (click)="activateUser(user['_id'])">Activate</button>
+        <button class="btn btn-outline-secondary" type="button" *ngIf="checkActivate(user['state'])" (click)="deactivateUser(user['_id'])">Deactivate</button>
+        <button class="btn btn-outline-primary" type="button" *ngIf="!checkSMP(user['isAdmin'])" (click)="grantSMP(user['_id'])">Grant manager privilege</button>
+        <button class="btn btn-outline-danger" (click)="deleteUser(user['_id'])">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>

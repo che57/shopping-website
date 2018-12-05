@@ -30,7 +30,7 @@ export class SignInComponent implements OnInit {
       .set('password', password);
     this.authControlService.signIn(body.toString()).subscribe((data) => {
       if (data['auth']) {
-        this.authControlService.setToken(data['auth'], data['token'], data['userName']);
+        this.authControlService.setToken(data['auth'], data['token'], data['userName'], data['admin']);
         // this.router.navigate(['']);
         this.location.back();
       } else {

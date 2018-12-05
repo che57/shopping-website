@@ -11,6 +11,9 @@
         <li class="nav-item" *ngIf="authDisplay()">
           <a class="nav-link" routerLink="cart">Shopping Cart<span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item" *ngIf="adminDisplay()">
+          <a class="nav-link" routerLink="manageUser">Manage User<span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item dropdown show" *ngIf="authDisplay()" dropdown>
           <a class="nav-link btn dropdown-toggle" aria-controls="dropdown-basic" dropdownToggle>
             Collection <span class="caret"></span>

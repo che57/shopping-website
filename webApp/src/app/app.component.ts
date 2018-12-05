@@ -17,9 +17,12 @@ export class AppComponent implements OnInit {
   authDisplay() {
     return (localStorage.getItem('auth') === 'true');
   }
+  adminDisplay() {
+    return (localStorage.getItem('admin') === 'true');
+  }
   signOut() {
     this.authControlService.signOut().subscribe((data) => {
-      this.authControlService.setToken(data['auth'], data['token'], data['userName']);
+      this.authControlService.setToken(data['auth'], data['token'], data['userName'], data['admin']);
       this.router.navigate(['']);
     });
   }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ItemsService} from '../items-wrap/items.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpParams} from '@angular/common/http';
-import {AuthControlService} from '../auth-control.service';
 import {CommentsService} from '../comments.service';
 import {CartService} from '../cart.service';
 import {CollectionService} from '../collection.service';
