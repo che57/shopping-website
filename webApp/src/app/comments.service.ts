@@ -5,9 +5,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   providedIn: 'root'
 })
 export class CommentsService {
-  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api'
+  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
   private authUrl = this.baseUrl + '/auth/comments';
-  private adminUrl = this.baseUrl + '/admin/comments'
+  private adminUrl = this.baseUrl + '/admin/comments';
   constructor(private http: HttpClient) { }
   postComment(c) {
     const headers = new HttpHeaders()
@@ -20,5 +20,11 @@ export class CommentsService {
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.put(this.adminUrl + '/' + id, c, {headers: headers});
+  }
+  getComment() {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.get(this.adminUrl, {headers: headers});
   }
 }

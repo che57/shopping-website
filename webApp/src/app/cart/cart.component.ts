@@ -46,10 +46,12 @@ export class CartComponent implements OnInit {
     return (this.cartItems.length === 0);
   }
   checkOut() {
-    this.cartService.checkOutCart().subscribe((res) => {
-      console.log(res);
-      this.loadCartItems();
-    });
+    for (let i of this.cartItems) {
+      this.cartService.checkOutItem(i.cItemId).subscribe((res) => {
+        console.log(res);
+        this.loadCartItems();
+      });
+    }
     this.checkOutOn = false;
   }
   cleanCart() {

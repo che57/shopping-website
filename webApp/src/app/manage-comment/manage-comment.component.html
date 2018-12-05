@@ -1,0 +1,14 @@
+<div class="card itemCard" *ngIf="comments != null">
+  <div class="card-body">
+    <h5 class="card-title">Hidden Comments list: </h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let c of comments">
+      <h6>{{c['userName']}}</h6>
+      {{c['content']}}
+      <div class="btn-group float-right">
+        <button class="btn btn-outline-success" (click)="recoverComment(c['_id'])">Reinstating Comment</button>
+      </div>
+    </li>
+  </ul>
+</div>

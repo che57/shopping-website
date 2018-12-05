@@ -30,11 +30,11 @@ export class CartService {
     this.action = '/cartItems/';
     return this.http.delete(this.authUrl + this.action + id, {headers: headers});
   }
-  checkOutCart() {
+  checkOutItem(id) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.action = '/users/cartItems/checkOut';
-    return this.http.delete(this.authUrl + this.action, {headers: headers});
+    this.action = '/users/cartItems/checkOut/';
+    return this.http.delete(this.authUrl + this.action + id, {headers: headers});
   }
 }
