@@ -53,4 +53,32 @@ export class CollectionService {
     this.action = '/collections/' + id;
     return this.http.get(this.authUrl + this.action, {headers: headers});
   }
+  putCollectionInfo(id, collection) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collections/' + id;
+    return this.http.put(this.authUrl + this.action, collection, {headers: headers});
+  }
+  putCollectionItem(cTId, cItem) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collectionItems/' + cTId;
+    return this.http.put(this.authUrl + this.action, cItem, {headers: headers});
+  }
+  deleteCollectionItem(cTId) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collectionItems/' + cTId;
+    return this.http.delete(this.authUrl + this.action, {headers: headers});
+  }
+  deleteCollection(cId) {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/collections/' + cId;
+    return this.http.delete(this.authUrl + this.action, {headers: headers});
+  }
 }

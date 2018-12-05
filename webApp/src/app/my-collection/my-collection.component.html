@@ -3,8 +3,9 @@
     <div class="row">
       <div class="card m-4 hover" style="width: 18rem;" *ngFor="let collection of collections">
         <div class="card-body">
-          <h5 class="card-title">{{collection['collectionName']}}</h5>
+          <h5 class="card-title"  routerLink="{{collection['_id']}}">{{collection['collectionName']}}</h5>
           <p class="card-text price">{{collection['collectionDescription']}}</p>
+          <button class="btn btn-outline-danger float-right" (click)="removeCollection(collection['_id'])">Delete</button>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { CollectionComponent } from './collection/collection.component';
 import { CreateCollectionComponent } from './create-collection/create-collection.component';
 import { MyCollectionComponent } from './my-collection/my-collection.component';
 import { CollectionItemComponent } from './collection-item/collection-item.component';
+import { MyCollectionItemComponent } from './my-collection-item/my-collection-item.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { CollectionItemComponent } from './collection-item/collection-item.compo
     CollectionComponent,
     CreateCollectionComponent,
     MyCollectionComponent,
-    CollectionItemComponent
+    CollectionItemComponent,
+    MyCollectionItemComponent
   ],
   imports: [
     BrowserModule,
