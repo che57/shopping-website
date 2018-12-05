@@ -109,12 +109,11 @@ router.route('/login').post((req, res) => {
             else{
                 if(user.isAdmin == true){
                     var token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, config.secret, {expiresIn: 86400});
-                    console.log(user.userName);
-                    res.send({auth: true, token: token, userName: user.userName});
+                    res.send({auth: true, token: token, userName: user.userName, admin: true});
                 }
                 else{
                     var token = jwt.sign({id: user._id}, config.secret, {expiresIn: 86400});
-                    res.send({auth: true, token: token, userName: user.userName});
+                    res.send({auth: true, token: token, userName: user.userName, admin: false});
                 }
             }
         });
@@ -122,7 +121,7 @@ router.route('/login').post((req, res) => {
 });
 
 router.route('/logout').get((req, res) => {
-    res.send({auth: false, token: null});
+    res.send({auth: false, token: null, userName: null, admin: false});
 })
 
 module.exports = router;
