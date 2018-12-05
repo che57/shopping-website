@@ -218,7 +218,7 @@ router.route('/collections/:collecion_id')
             if(req.body.collectionDescription != null && req.body.collectionDescription != ''){
                 collection.collectionDescription = req.body.collectionDescription;
             }
-            if(req.body.visibilityState == 1 || req.body.visibilityState == 0){
+            if(req.body.visibilityState != null || req.body.visibilityState != ''){
                 collection.visibilityState = req.body.visibilityState;
             }
             collection.save((err) => {
@@ -296,8 +296,8 @@ router.route('/collectionItems/:collectionItem_id')
     .put((req, res) => {
         CollectionItem.findById(req.params.collectionItem_id, (err, collectionItem) => {
             if(err) res.send(err);
-            if(req.body.itemQuantity != null && req.body.itemQuantity != '') {
-                collectionItem.itemQuantity = req.body.itemQuantity;
+            if(req.body.quantity != null && req.body.quantity != '') {
+                collectionItem.quantity = req.body.quantity;
             }
             collectionItem.save((err) => {
                 if(err) res.send(err);
