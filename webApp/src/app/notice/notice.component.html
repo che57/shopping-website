@@ -1,0 +1,18 @@
+<div class="itemCard" *ngIf="notices != null">
+  <div class="card" *ngFor="let notice of notices">
+    <div class="card-header">
+      Subject: {{notice['subject']}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Comment Detail: </h5>
+      <p class="card-text">User Name: {{notice['userName']}}</p>
+      <p class="card-text">Comment Content: {{notice['commentContent']}}</p>
+      <h5 class="card-title">Report Reason: </h5>
+      <button class="btn btn-outline-danger float-right" (click)="hideComment(notice['commentId'])">Hide Comment</button>
+      <p class="card-text">U{{notice['content']}}</p>
+    </div>
+    <div class="card-footer text-muted">
+      Report Date: {{notice['date']}}
+    </div>
+  </div>
+</div>

@@ -5,33 +5,29 @@ import {UrlCollectionService} from './url-collection.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CommentsService {
-  private readonly authUrl;
+export class ReportService {
   private readonly adminUrl;
-  private action = '/comments';
+  private readonly baseUrl;
+  private action: string;
   constructor(
     private http: HttpClient,
     private urlCollection: UrlCollectionService
   ) {
-    this.authUrl = this.urlCollection.getAuthUrl();
     this.adminUrl = this.urlCollection.getAdminUrl();
+    this.baseUrl = this.urlCollection.getBaseUrl();
   }
-  postComment(c) {
+  postReport(report) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post(this.authUrl + this.action, c, {headers: headers});
+    this.action = '/report';
+    return this.http.post(this.baseUrl + this.action, report, {headers: headers});
   }
-  putComment(id, c) {
+  getReports() {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.put(this.adminUrl + this.action +  '/' + id, c, {headers: headers});
-  }
-  getComment() {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    this.action = '/report';
     return this.http.get(this.adminUrl + this.action, {headers: headers});
   }
 }

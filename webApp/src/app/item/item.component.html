@@ -56,6 +56,7 @@
   <div class="card" *ngFor="let comment of comments">
     <div class="card-body p-4" >
       <h5 class="card-title">{{comment['userName']}}</h5>
+      <button class="btn btn-outline-danger float-right" (click)="reportClick(comment['userName'], comment['_id'], comment['content'])">Report</button>
       <p class="card-text">Rating: {{comment['rating']}}</p>
       <p class="card-text">Content: {{comment['content']}}</p>
       <button *ngIf="adminDisplay()" class="btn-outline-primary btn" (click)="updateCommentState(comment['_id'])">Hide Comment</button>
@@ -69,5 +70,30 @@
     <textarea placeholder="Comment" #comment style="width: 100%"></textarea>
     <br>
     <button class="btn btn-outline-secondary mt-1" (click)="writeComment(rating.value, comment.value)">Write Comments</button>
+  </div>
+</div>
+
+<div *ngIf="reportOn" class="fixed-top">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Report</h5>
+        <button type="button" class="close" (click)="reportOn = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Comment Content:</h6>
+        <p>{{cC}}</p>
+        <br>
+        <input class="form-control" placeholder="Report Subject" #s>
+        <br>
+        <textarea class="form-control" placeholder="Why you report this comment" #c></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="reportOn = false">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="reportComment(s.value, c.value)">Send Report</button>
+      </div>
+    </div>
   </div>
 </div>

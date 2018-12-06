@@ -23,6 +23,7 @@ import { AddNewItemComponent } from './add-new-item/add-new-item.component';
 import { ManageCommentComponent } from './manage-comment/manage-comment.component';
 import { PolicyComponent } from './policy/policy.component';
 import { ManagePolicyComponent } from './manage-policy/manage-policy.component';
+import { NoticeComponent } from './notice/notice.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ManagePolicyComponent } from './manage-policy/manage-policy.component';
     AddNewItemComponent,
     ManageCommentComponent,
     PolicyComponent,
-    ManagePolicyComponent
+    ManagePolicyComponent,
+    NoticeComponent
   ],
   imports: [
     BrowserModule,

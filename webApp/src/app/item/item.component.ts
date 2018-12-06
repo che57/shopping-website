@@ -6,6 +6,7 @@ import {CommentsService} from '../comments.service';
 import {CartService} from '../cart.service';
 import {CollectionService} from '../collection.service';
 import {ManageItemService} from '../manage-item.service';
+import {ReportService} from '../report.service';
 
 @Component({
   selector: 'app-item',
@@ -20,13 +21,20 @@ export class ItemComponent implements OnInit {
   private rate;
   private collectionList;
   private itemName;
+  public reportOn = false;
+  // these vars hold values for report.
+  private n;
+  private cId;
+  private cC;
+  // ---------------------------------
   constructor(
     private itemsService: ItemsService,
     private cartService: CartService,
     private route: ActivatedRoute,
     private commentService: CommentsService,
     private collectionService: CollectionService,
-    private manageItemService: ManageItemService
+    private manageItemService: ManageItemService,
+    private reportService: ReportService
   ) {
     this.loadItemInfo();
     this.loadItemComments();
@@ -127,6 +135,27 @@ export class ItemComponent implements OnInit {
     this.commentService.putComment(id, body.toString()).subscribe((res) => {
       console.log(res);
       this.loadItemComments();
+    });
+  }
+  reportClick(n, cId, cC) {
+    this.reportOn = true;
+    this.n = n;
+    this.cId = cId;
+    this.cC = cC;
+  }
+  reportComment(s, c) {
+    let now = new Date();
+    const body = new HttpParams()
+      .set('date', now.toString())
+      .set('subject', s)
+      .set('userName', this.n)
+      .set('commentId', this.cId)
+      .set('commentContent', this.cC)
+      .set('content', c);
+    console.log(body.toString());
+    this.reportService.postReport(body.toString()).subscribe((res) => {
+      console.log(res);
+      alert(res['msg']);
     });
   }
 }
