@@ -1,0 +1,11 @@
+<div class="itemCard">
+  <h3>Security and privacy policy: </h3>
+  <textarea value="{{policy}}" class="mt-3 w-100 form-control" style="height: 500px;" #c></textarea>
+  <br>
+  <button class="btn btn-outline-primary float-right" (click)="saveChange(c.value)">Save</button>
+  <br><br>
+  <h3>DMCA notice & takedown policy: </h3>
+  <textarea value="{{dmca}}" class="mt-3 w-100 form-control" style="height: 500px;" #d></textarea>
+  <br>
+  <button class="btn btn-outline-primary float-right" (click)="saveDMCA(d.value)">Save</button>
+</div>

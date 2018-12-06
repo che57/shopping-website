@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UrlCollectionService} from './url-collection.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageItemService {
-  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
-  private adminUrl = this.baseUrl + '/admin';
+  private readonly adminUrl;
   private action: string;
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private urlCollection: UrlCollectionService
+  ) {
+    this.adminUrl = this.urlCollection.getAdminUrl();
+  }
   putItem(id, item) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')

@@ -11,6 +11,7 @@
           <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
             <li role="menuitem"><a class="dropdown-item" routerLink="manageUser">Manage User</a></li>
             <li role="menuitem"><a class="dropdown-item" routerLink="manageComment">Manage Hidden Comments</a></li>
+            <li role="menuitem"><a class="dropdown-item" routerLink="managePolicy">Modify Policy</a></li>
             <li class="divider dropdown-divider"></li>
             <li role="menuitem"><a class="dropdown-item" routerLink="addNewItem">Add New Item</a>
             </li>
@@ -38,7 +39,10 @@
           <a class="nav-link btn" (click)="signOut()">Sign Out<span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link btn" (click)="goBack()">Go back <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="policy">Policy & Guide<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn" (click)="goBack()">Go Back <span class="sr-only">(current)</span></a>
         </li>
         <!--<li class="nav-item">-->
           <!--<a class="nav-link" routerLink="/about">About</a>-->

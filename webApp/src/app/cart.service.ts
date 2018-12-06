@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UrlCollectionService} from './url-collection.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
-  private authUrl = this.baseUrl + '/auth';
+  private readonly authUrl;
   private action: string;
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private urlCollection: UrlCollectionService
+  ) {
+    this.authUrl = this.urlCollection.getAuthUrl();
+  }
   addToCart (cItem) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')

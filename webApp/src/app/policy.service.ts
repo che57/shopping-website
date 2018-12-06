@@ -5,34 +5,33 @@ import {UrlCollectionService} from './url-collection.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ManageUserService {
+export class PolicyService {
   private readonly adminUrl;
-  private action: string;
+  private readonly baseUrl;
+  private action;
   constructor(
     private http: HttpClient,
     private urlCollection: UrlCollectionService
   ) {
     this.adminUrl = this.urlCollection.getAdminUrl();
+    this.baseUrl = this.urlCollection.getBaseUrl();
   }
-  getAllUsers() {
+  putPolicy(policy) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.action = '/users';
-    return this.http.get(this.adminUrl + this.action, {headers: headers});
+    this.action = '/policy';
+    return this.http.put(this.adminUrl + this.action, policy, {headers: headers});
   }
-  putUser(id, user) {
+  getPolicy() {
+    this.action = '/policy';
+    return this.http.get(this.baseUrl + this.action);
+  }
+  putDMCA(dmca) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.action = '/users/';
-    return this.http.put(this.adminUrl + this.action + id, user, {headers: headers});
-  }
-  deleteUser(id) {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    this.action = '/users/';
-    return this.http.delete(this.adminUrl + this.action + id, {headers: headers});
+    this.action = '/dmca';
+    return this.http.put(this.adminUrl + this.action, dmca, {headers: headers});
   }
 }

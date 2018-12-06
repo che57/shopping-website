@@ -21,6 +21,8 @@ import { MyCollectionItemComponent } from './my-collection-item/my-collection-it
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { AddNewItemComponent } from './add-new-item/add-new-item.component';
 import { ManageCommentComponent } from './manage-comment/manage-comment.component';
+import { PolicyComponent } from './policy/policy.component';
+import { ManagePolicyComponent } from './manage-policy/manage-policy.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { ManageCommentComponent } from './manage-comment/manage-comment.componen
     MyCollectionItemComponent,
     ManageUserComponent,
     AddNewItemComponent,
-    ManageCommentComponent
+    ManageCommentComponent,
+    PolicyComponent,
+    ManagePolicyComponent
   ],
   imports: [
     BrowserModule,

@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UrlCollectionService} from './url-collection.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService {
-  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
-  private authUrl = this.baseUrl + '/auth/comments';
-  private adminUrl = this.baseUrl + '/admin/comments';
-  constructor(private http: HttpClient) { }
+  private readonly authUrl;
+  private readonly adminUrl;
+  constructor(
+    private http: HttpClient,
+    private urlCollection: UrlCollectionService
+  ) {
+    this.authUrl = this.urlCollection.getAuthUrl();
+    this.adminUrl = this.urlCollection.getAdminUrl();
+  }
   postComment(c) {
     const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded')

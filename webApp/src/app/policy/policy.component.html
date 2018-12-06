@@ -1,0 +1,20 @@
+<div class="itemCard">
+  <div *ngIf="checkAdmin()">
+    <h3>How to implement DMCA notice & takedown policy: </h3>
+    <p>
+      Once receive notice, go to item information page to hide comment being reported
+      or go the mange mode to deactivate reported user.<br>
+      You can reinstate users and comments in manage mode link.
+    </p>
+  </div>
+  <div>
+    <h3>Security and privacy policy: </h3>
+    <p>{{policy}}</p>
+  </div>
+  <div>
+    <h3>DMCA notice & takedown policy: </h3>
+    <p>{{dmca}}</p>
+  </div>
+  <br>
+  <div><b>Please contact:</b><a href="#">  example@gmail.com</a> <br>for any notices of infringement</div>
+</div>
