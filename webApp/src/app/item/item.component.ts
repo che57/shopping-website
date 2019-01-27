@@ -121,7 +121,7 @@ export class ItemComponent implements OnInit {
       .set('iDescription', description)
       .set('price', price)
       .set('stock', stock)
-      .set('tax', tax / 100);
+      .set('tax', (tax / 100).toString());
     this.manageItemService.putItem(this.itemId, body.toString()).subscribe((res) => {
       alert(res['msg']);
       this.loadItemInfo();
