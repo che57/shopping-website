@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UrlCollectionService {
 
-  private baseUrl = 'https://lab5-backend-3-che57.c9users.io/api';
+  private baseUrl = 'https://benton-shop-backend.herokuapp.com/api';
   private adminUrl = this.baseUrl + '/admin';
   private authUrl = this.baseUrl + '/auth';
   private authControl = this.baseUrl + '/authcontroll';

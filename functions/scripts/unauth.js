@@ -59,14 +59,16 @@ router.route('/users')
         var password = req.body.password;
         user.state = 1;
         
-        if(user.userName == '' || user.userName == null){
+        if(user.userName === '' || user.userName === null){
             res.json({msg: 'must input a userName!'});
         }
-        else if(password == '' || password == null){
+        else if(password === '' || password === null){
             res.json({msg: 'must input a password!'});
         }
         else{
-            bcrypt.genSalt(saltRounds, (err, salt) => {
+            bcrypt.genSalt(saltRounds, (err, salt) =>{
+                if(err)
+                    res.send(err);
                 bcrypt.hash(password, salt, (err, hash) => {
                     if(err) res.send(err);
                     user.password = hash;
@@ -93,6 +95,7 @@ router.route('/items/:item_id/comments')
         Comment.find({itemId: req.params.item_id}, (err, comments)=>{
             if(err) res.send(err);
         }).sort({$natural:-1}).limit(5).exec((err, comments) => {
+            if(err) res.send(err);
             res.json(comments);
         })
     });

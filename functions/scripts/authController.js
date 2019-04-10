@@ -49,13 +49,13 @@ router.route('/register').post((req, res) => {
     user.isAdmin = req.body.isAdmin;
     user.state = 1;
     
-    if(user.userName == '' || user.userName == null){
+    if(user.userName === '' || user.userName === null){
         res.json({msg: 'missing userName'});
     }
-    else if(password == '' || password == null){
+    else if(password === '' || password === null){
         res.json({msg: 'missing password'});
     }
-    else if(user.isAdmin != false && user.isAdmin != true){
+    else if(user.isAdmin !== false && user.isAdmin !== true){
         console.log(user.isAdmin);
         res.json({msg: 'missing account type!'});
     }
@@ -65,6 +65,7 @@ router.route('/register').post((req, res) => {
             if (userE) return res.json({auth: false, msg: 'User exists!'});
             else {
                 bcrypt.genSalt(saltRounds, (err, salt) => {
+                    if(err) res.send(err);
                     bcrypt.hash(password, salt, (err, hash) => {
                         if(err) res.send(err);
                         user.password = hash;
@@ -121,14 +122,14 @@ router.route('/login').post((req, res) => {
         bcrypt.compare(req.body.password, user.password, (err, isValid) => {
             if(!isValid) return res.json({auth: false, msg: 'Username or Password is invalid!'});
             else if(err) return res.send(err);
-            else if(user.state == 0) return res.json({auth: false, msg: 'The account is deactivated, please contact the store manager. . .'})
+            else if(user.state === 0) return res.json({auth: false, msg: 'The account is deactivated, please contact the store manager. . .'})
             else{
-                if(user.isAdmin == true){
+                if(user.isAdmin === true){
                     var token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, config.secret, {expiresIn: 86400});
                     res.send({auth: true, token: token, userName: user.userName, admin: true});
                 }
                 else{
-                    var token = jwt.sign({id: user._id}, config.secret, {expiresIn: 86400});
+                    token = jwt.sign({id: user._id}, config.secret, {expiresIn: 86400});
                     res.send({auth: true, token: token, userName: user.userName, admin: false});
                 }
             }
