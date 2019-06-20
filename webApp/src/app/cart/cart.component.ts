@@ -31,15 +31,14 @@ export class CartComponent implements OnInit {
   loadCartItems() {
     this.totalPrice = 0;
     this.cartItems = new Array();
-    //this.cartService.getCartItems().subscribe((data) => {
-    //  // console.log(typeof data, data);
-    //  for (let cItem of data) {
-    //    this.itemsService.getItem(cItem.itemId).subscribe((res) => {
-    //      this.cartItems.push({itemQuantity: cItem.itemQuantity , itemInfo: res, cItemId: cItem._id});
-    //      this.totalPrice += cItem.itemQuantity * res['price'] * (res['tax'] + 1);
-    //    });
-    //  }
-    //});
+    this.cartService.getCartItems().subscribe((data) => {
+     for (let cItem in data) {
+       this.itemsService.getItem(data[cItem]["itemId"]).subscribe((res) => {
+         this.cartItems.push({itemQuantity: data[cItem]['itemQuantity'] , itemInfo: res, cItemId: data[cItem]._id});
+         this.totalPrice += data[cItem]['itemQuantity'] * res['price'] * (res['tax'] + 1);
+       });
+     }
+    });
   }
   checkEmpty() {
     return (this.cartItems.length === 0);
