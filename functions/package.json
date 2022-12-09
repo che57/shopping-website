@@ -14,7 +14,7 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "email-verification": "^0.4.6",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "firebase-admin": "~6.0.0",
     "firebase-functions": "^2.1.0",
     "jsonwebtoken": "^8.5.1",
